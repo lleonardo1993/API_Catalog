@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_Catalog.Models;//novo recurso do .net6 não é preciso as chaves {} no namespace
 
-[Table("Categoria")]//table e key, redundantes póis ja foram mapeados no context
+[Table("Categorias")]//table e key, redundantes póis ja foram mapeados no context
 public class Categoria
 {    
     public Categoria()

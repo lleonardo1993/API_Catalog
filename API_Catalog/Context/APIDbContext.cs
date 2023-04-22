@@ -5,11 +5,11 @@ namespace API_Catalog.Data
 {
     public class APIDbContext : DbContext
     {
-        public APIDbContext(DbContextOptions<APIDbContext> options) 
-            : base(options) => Database.EnsureCreated();
+        public APIDbContext(DbContextOptions<APIDbContext> options)
+            : base(options) { }
 
        
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Categoria>? Categorias { get; set; }
+        public DbSet<Produto>? Produtos { get; set; }
     }
 }

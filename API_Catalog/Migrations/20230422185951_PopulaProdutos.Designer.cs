@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Catalog.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20230419011440_Migration2")]
-    partial class Migration2
+    [Migration("20230422185951_PopulaProdutos")]
+    partial class PopulaProdutos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,7 +45,7 @@ namespace API_Catalog.Migrations
 
                     b.HasKey("CategoriaId");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categorias");
                 });
 
             modelBuilder.Entity("API_Catalog.Models.Produto", b =>
@@ -85,7 +85,7 @@ namespace API_Catalog.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Produto");
+                    b.ToTable("Produtos");
                 });
 
             modelBuilder.Entity("API_Catalog.Models.Produto", b =>
