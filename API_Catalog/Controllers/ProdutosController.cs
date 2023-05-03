@@ -31,6 +31,58 @@ namespace API_Catalog.Controllers
             }
             return produtos;
         }
+        [HttpGet("{id:int}", Name = "ObterProduto")]
+        public ActionResult<Produto> Get(int id)
+        {
+            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+            if(produto is null)
+            {
+                return NotFound("Não foi encontrado o Id na context..");
+            }
+            return produto;
+        }
+        [HttpPost]
+        public ActionResult Post(Produto produto) // recebe o produto
+        {
+            if(produto is null)
+            {
+                return BadRequest();
+            }
 
+            _context.Produtos.Add(produto); // add no context
+            _context.SaveChanges(); // salva no db
+
+            return new CreatedAtRouteResult("ObterProduto", // obtem a route passada no get
+                new { id = produto.ProdutoId }, produto);
+        }
+        [HttpPut("{id:int}")]
+        public ActionResult Put(int id, Produto produto)
+        {
+            if(id != produto.ProdutoId)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(produto).State = EntityState.Modified; //alterando dados na context com Entry
+            _context.SaveChanges(); // persistindo alteração na context
+
+            return Ok(produto);// retornando dados modificados
+        }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            
+            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
+            
+            if(produto is null)
+            {
+                return NotFound("Produto não localizado..");
+            }
+            _context.Remove(produto);
+            _context.SaveChanges();
+
+            return Ok(produto);
+        }
     }
 }
