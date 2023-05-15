@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace API_Catalog.Models
@@ -26,6 +27,7 @@ namespace API_Catalog.Models
         public float Estoque { get; set; }
         public DateTime DataCadastro { get; set; }
         public int CategoriaId { get; set; }
+        [JsonIgnore] // Propriedade Ignorada na Serialização e Deserialização ignora ex: end point post não precisa passar os dados da Categoria
         public Categoria? Categoria { get; set; }
 
     }

@@ -67,7 +67,7 @@ namespace API_Catalog.Controllers
             {
                 return BadRequest();
             }
-            _context.Entry(categoria).State = EntryState.Modified;
+            _context.Entry(categoria).State = EntityState.Modified;
             _context.SaveChanges();
             return Ok(categoria);
         }
