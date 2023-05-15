@@ -75,11 +75,11 @@ namespace API_Catalog.Controllers
             
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
             
-            if(produto is null)
+            if(produto is null) 
             {
                 return NotFound("Produto não localizado..");
             }
-            _context.Remove(produto);
+            _context.Produtos.Remove(produto);
             _context.SaveChanges();
 
             return Ok(produto);
