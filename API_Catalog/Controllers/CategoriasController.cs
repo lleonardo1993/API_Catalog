@@ -2,6 +2,7 @@
 using API_Catalog.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Catalog.Controllers
 {
@@ -16,6 +17,14 @@ namespace API_Catalog.Controllers
         {
             _context = context;
         }
+
+        // Método retorna os produtos das Caterias relacionadas
+        [HttpGet("produtos")]
+        public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
+        {
+            return _context.Categorias.Include(p => p.Produtos).ToList();
+        }
+
         // Método retorna uma lista de Categorias
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
