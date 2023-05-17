@@ -23,13 +23,16 @@ namespace API_Catalog.Controllers
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
             return _context.Categorias.Include(p => p.Produtos).ToList();
+            return _context.Categorias.Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToList();
+                //o método Include, que é o responsável pelo carregamento de registros associados as entidades de nossas consultas "Include força a consulta"
         }
 
         // Método retorna uma lista de Categorias
         [HttpGet]
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            return _context.Categorias.ToList();
+            return _context.Categorias.AsNoTracking().ToList(); // AsNoTracking(), Método que melhora o desenpenho da consulta não armazenando cache da context
+            // esse método só pode ser usado se o retorno da consulta não for alterado ex: get
         }
         // Método retorna Categoria por id
         [HttpGet("{id:int}", Name = "ObterCategoria")]
