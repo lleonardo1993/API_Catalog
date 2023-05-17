@@ -18,13 +18,24 @@ namespace API_Catalog.Controllers
             _context = context;
         }
 
-        // Método retorna os produtos das Caterias relacionadas
+        // Método retorna os produtos das Categorias relacionadas
         [HttpGet("produtos")]
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            return _context.Categorias.Include(p => p.Produtos).ToList();
-            return _context.Categorias.Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToList();
+            try
+            {
+                //return _context.Categorias.Include(p => p.Produtos).ToList();
+                return _context.Categorias.Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToList();
                 //o método Include, que é o responsável pelo carregamento de registros associados as entidades de nossas consultas "Include força a consulta"
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Ocorreu um problema ao tratar a sua solicitação.");
+
+            }
+
         }
 
         // Método retorna uma lista de Categorias
@@ -38,13 +49,21 @@ namespace API_Catalog.Controllers
         [HttpGet("{id:int}", Name = "ObterCategoria")]
         public ActionResult<IEnumerable<Categoria>> Get(int id)
         {
-            var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
-
-            if (categoria == null)
+            try
             {
-                return NotFound("Categoria não encontrada...");
+                var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
+
+                if (categoria == null)
+                {
+                    return NotFound($"Categoria com id= {id} não encontrada...");
+                }
+                return Ok(categoria);
             }
-            return Ok(categoria);
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Ocorreu um problema ao tratar a sua solicitação.");
+            }
         }
         // Método de inserção
         [HttpPost("{id:int}", Name = "ObterCategoria")]
@@ -52,7 +71,7 @@ namespace API_Catalog.Controllers
         {
             if (categoria is null)
             {
-                return NotFound("Id da Categoria não existe..");
+                return NotFound($"Id da Categoria {categoria} não existe..");
             }
 
             _context.Add(categoria);
@@ -66,9 +85,9 @@ namespace API_Catalog.Controllers
         [HttpPut("{id:int}")]
         public ActionResult Put(int id, Categoria categoria)
         {
-            if( id != categoria.CategoriaId)
+            if (id != categoria.CategoriaId)
             {
-                return BadRequest();
+                return BadRequest("Dados invalidos!");
             }
             _context.Entry(categoria).State = EntityState.Modified;
             _context.SaveChanges();
@@ -79,9 +98,9 @@ namespace API_Catalog.Controllers
         {
             var categoria = _context.Categorias.FirstOrDefault(p => p.CategoriaId == id);
 
-            if(categoria == null)
+            if (categoria == null)
             {
-                return NotFound("Categoria não encontrada.");
+                return NotFound($"Categoria com id={id} não encontrada.");
             }
             _context.Remove(categoria);
             _context.SaveChanges();
